@@ -73,3 +73,8 @@
 </div>
 
 @endsection
+
+
+git add .
+git commit -m "commit pertama"
+
