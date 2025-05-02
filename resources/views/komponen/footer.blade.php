@@ -10,9 +10,9 @@
         <h3>
           <details>
             <SUMMary>MORE</SUMMary>
-            <li><a href="tentangkami.html">Tentang Kami</a></li>
-            <li><a href="kontak.html">Kontak</a></li>
-            <li><a href="semuaproduk.html">Produk</a></li>
+            <li><a href="/tentang">Tentang Kami</a></li>
+            <li><a href="/kontak">Kontak</a></li>
+            <li><a href="/semuaproduk">Produk</a></li>
           </details>
         </h3>
       </div>

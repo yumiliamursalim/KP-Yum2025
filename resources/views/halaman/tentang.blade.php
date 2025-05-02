@@ -6,7 +6,7 @@
   .about-container {
     text-align: center;
     padding: 40px 20px;
-    background-color: #1c1c1c; /* gelap */
+    background-color: #121212; /* gelap */
     color: white;
 }
 
@@ -38,7 +38,7 @@
 .about-col {
     flex: 1 1 300px;
     max-width: 500px;
-    background-color: #2e2e2e;
+    background-color: #1b1b1b;
     padding: 20px;
     border-radius: 10px;
     text-align: left;

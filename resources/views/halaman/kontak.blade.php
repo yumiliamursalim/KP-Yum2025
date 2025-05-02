@@ -11,7 +11,7 @@
         align-items: center;
         justify-content: center;
         min-height: 80vh;
-        background-color: #1c1c1c;
+        background-color: #121212;
         color: white;
         text-align: center;
         padding: 40px 20px;
@@ -73,8 +73,3 @@
 </div>
 
 @endsection
-
-
-git add .
-git commit -m "commit pertama"
-

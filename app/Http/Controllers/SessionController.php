@@ -31,7 +31,7 @@ class SessionController extends Controller
         ];
         if (Auth::attempt($infologin)) {
             # code...
-            return redirect('siswa')->with('success', 'Berhasil login!');
+            return redirect('/')->with('success', 'Berhasil login!');
         } else {
             # code...
             return redirect('sesi')->withErrors('Username dan Password salah');
@@ -48,39 +48,31 @@ class SessionController extends Controller
     function create(Request $request){
         Session::flash('name', $request->name);
         Session::flash('email', $request->email);
+        
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6'
         ], [
-            'nama.required' => 'Nama harus diisi!',
+            'name.required' => 'Nama harus diisi!',
             'email.required' => 'Email harus diisi!',
             'email.email' => 'Email tidak valid!',
             'email.unique' => 'Email sudah terdaftar!',
             'password.required' => 'Password harus diisi!',
-            'password.min' => 'Password minimal 6 char!',
+            'password.min' => 'Password minimal 6 karakter!',
         ]);
-
+    
         $data = [
-            'name' =>$request->name,
-            'email' =>$request->email,
-            'password' =>Hash::make($request->password)
-        ];
-        User::create($data);
-
-        $infologin = [
+            'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password
+            'password' => Hash::make($request->password)
         ];
-        if (Auth::attempt($infologin)) {
-            $user = Auth::user(); // simpan ke variabel dulu
-            return redirect('siswa')->with('success', $user->name . ' berhasil login');
         
-        } else {
-            # code...
-            return redirect('sesi')->withErrors('Username dan Password salah');
-        }
+        User::create($data);
+    
+        return redirect('sesi')->with('success', 'Registrasi berhasil! Silakan login.');
     }
+    
 
     function register(){
         return view('sesi/register');
