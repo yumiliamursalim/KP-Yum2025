@@ -13,7 +13,9 @@
             <li><a href="{{ route('produk.semua') }}">Produk</a></li>
             <li><a href="/tentang">Tentang Kami</a></li>
             <li><a href="/kontak">Kontak</a></li>
-            <li><a href="/sesi">Akun</a></li>
+            @guest
+            <li><a href="/sesi">Akun</a></li> <!-- Tampil hanya jika belum login -->
+            @endguest
           </ul>
         </nav>
 
@@ -36,55 +38,60 @@
     <p>Dapatkan <span style="font-style: oblique;">Kupon Gratis Ongkir</span> dengan belanja lebih dari 100k!</p>
   </div>
 
-  <ul class="navbar-nav ms-auto">
-    @auth
-        <li class="nav-item">
-            <span class="nav-link text-white">Halo, {{ Auth::user()->name }}</span>
-        </li>
-        <li class="nav-item">
-            <a href="/sesi/logout" class="nav-link text-white">Logout</a>
-        </li>
-    @else
-        <li class="nav-item">
-            <a href="{{ url('/sesi') }}" class="nav-link text-white">Login</a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ url('/register') }}" class="nav-link text-white">Register</a>
-        </li>
-    @endauth
-</ul>
 
 @if (session('success'))
     <div id="toast-success" class="toast-popup alert alert-success">
+        <span class="close-toast" onclick="closeToast()">&times;</span>
         {{ session('success') }}
     </div>
 
     <script>
-        // Hapus toast setelah 5 detik
-        setTimeout(() => {
+        function closeToast() {
             const toast = document.getElementById('toast-success');
             if (toast) {
                 toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
                 setTimeout(() => toast.remove(), 500);
             }
-        }, 5000);
+        }
+
+        // Auto-close after 5 seconds
+        setTimeout(closeToast, 5000);
     </script>
 
     <style>
         .toast-popup {
             position: fixed;
             top: 20px;
-            right: 20px;
-            z-index: 9999;
-            padding: auto;
+            right: -350px; /* mulai dari luar kanan layar */
+            max-width: 300px;
+            padding: 15px 20px;
             background-color: #ffffff;
-            color: rgb(0, 0, 0);
+            color: #000;
             border: 2px solid greenyellow;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            transition: opacity 0.5s ease;
+            z-index: 9999;
+            opacity: 1;
+            animation: slideInRight 0.5s forwards;
+        }
+
+        @keyframes slideInRight {
+            to {
+                right: 20px;
+            }
+        }
+
+        .close-toast {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-weight: bold;
+            cursor: pointer;
         }
     </style>
 @endif
+
+
 
 

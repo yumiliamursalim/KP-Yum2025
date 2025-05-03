@@ -4,6 +4,8 @@
 
 @include('komponen.slider')
 @include('komponen.kategori')
+@include('komponen.loginfo')
+
 <!-- produk  -->
 <div class="small-container">
   <h2 class="title">Produk Terbaru</h2>

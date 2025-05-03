@@ -16,28 +16,40 @@ class SessionController extends Controller
         return view("sesi/index");
     }
 
-    function login(Request $request){
-        Session::flash('email', $request->email);
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required'
-        ], [
-            'email.required' => 'Email harus diisi!',
-            'password.required' => 'Password harus diisi!',
-        ]);
-        $infologin = [
-            'email' => $request->email,
-            'password' => $request->password
-        ];
-        if (Auth::attempt($infologin)) {
-            # code...
-            return redirect('/')->with('success', 'Berhasil login!');
-        } else {
-            # code...
-            return redirect('sesi')->withErrors('Username dan Password salah');
-        }
+        function login(Request $request){
+            Session::flash('email', $request->email);
+            $request->validate([
+                'email' => 'required',
+                'password' => 'required'
+            ], [
+                'email.required' => 'Email harus diisi!',
+                'password.required' => 'Password harus diisi!',
+            ]);
+            $infologin = [
+                'email' => $request->email,
+                'password' => $request->password
+            ];
+            // if (Auth::attempt($infologin)) {
+            //     # code...
+            //     return redirect('/')->with('success', 'Berhasil login!');
+            // } else {
+            //     # code...
+            //     return redirect('sesi')->withErrors('Username dan Password salah');
+            // }
+            if (Auth::attempt($infologin)) {
+                $user = Auth::user();
         
-    }
+                // Cek role dan arahkan ke dashboard yang sesuai
+                if ($user->role === 'admin') {
+                    return redirect('/admin')->with('success', 'Berhasil login sebagai admin!');
+                } else {
+                    return redirect('/')->with('success', 'Berhasil login!');
+                }
+            } else {
+                return redirect('sesi')->withErrors('Username dan Password salah');
+            }
+            
+        }
 
     function logout(){
         Auth::logout();

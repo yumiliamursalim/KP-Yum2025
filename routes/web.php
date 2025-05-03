@@ -49,6 +49,9 @@ Route::get('/sesi/logout', [SessionController::class, 'logout']);
 Route::get('/sesi/register', [SessionController::class, 'register'])->middleware('isTamu');
 Route::post('/sesi/create', [SessionController::class, 'create'])->middleware('isTamu') ;
 
+Route::get('/admin', [AdminController::class, 'index'])->middleware('role:admin');
+Route::get('/dashboard', [CustomerController::class, 'index'])->middleware('role:customer');
+
 
 ///Produk
 Route::resource('produk', ProdukController::class);
