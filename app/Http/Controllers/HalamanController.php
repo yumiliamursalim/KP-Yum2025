@@ -13,16 +13,13 @@ class HalamanController extends Controller
     }
 
     function tentang(){
-        $data = [
-            'judul' => 'Ini Tentang Saya',
-            'kontak' => [
-                'email' => 'dimana@sss.com',
-                'youtube' => 'Ajikala'
-            ]
-        ];
-        return view("halaman/tentang")->with($data);
+        return view("halaman/tentang");
     }
     function kontak(){
         return view("halaman/kontak");
     }
+    function admin(){
+        return view("halaman/admin");
+    }
 }
+    

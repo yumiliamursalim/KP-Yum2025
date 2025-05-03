@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\HalamanController;
+use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\SessionController;
 
@@ -49,7 +50,7 @@ Route::get('/sesi/logout', [SessionController::class, 'logout']);
 Route::get('/sesi/register', [SessionController::class, 'register'])->middleware('isTamu');
 Route::post('/sesi/create', [SessionController::class, 'create'])->middleware('isTamu') ;
 
-Route::get('/admin', [AdminController::class, 'index'])->middleware('role:admin');
+Route::get('/admin', [HalamanController::class, 'admin'])->middleware('role:admin');
 Route::get('/dashboard', [CustomerController::class, 'index'])->middleware('role:customer');
 
 
@@ -76,4 +77,7 @@ Route::get('/rempahan', [ProdukController::class, 'kategoriRempah'])->name('prod
 
 
 
+
+//keranjag
+Route::post('/keranjang/tambah/{id}', [KeranjangController::class, 'tambah'])->middleware('auth')->name('keranjang.tambah');
 

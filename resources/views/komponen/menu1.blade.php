@@ -33,9 +33,27 @@
     </div>
   </div>
   
+  @auth
+    @if (Auth::user()->role === 'admin')
+    
+    @else
+
+    @endif
+      
+  @else
+
+  @endauth
 <!-- announcement -->
   <div class="announcement">
-    <p>Dapatkan <span style="font-style: oblique;">Kupon Gratis Ongkir</span> dengan belanja lebih dari 100k!</p>
+    @auth
+        @if(Auth::user()->role === 'admin')
+            <p>Halo <strong>Admin</strong>, kelola toko dengan bijak!</p>
+        @else
+            <p>Dapatkan <span style="font-style: oblique;">Kupon Gratis Ongkir</span> dengan belanja lebih dari 100k!</p>
+        @endif
+    @else
+        <p>Dapatkan <span style="font-style: oblique;">Kupon Gratis Ongkir</span> dengan belanja lebih dari 100k!</p>
+    @endauth
   </div>
 
 

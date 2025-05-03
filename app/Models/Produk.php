@@ -18,6 +18,16 @@ class Produk extends Model
         'deskripsi',
         'foto',
     ];
+    public function keranjang()
+{
+    return $this->hasMany(Keranjang::class);
+}
+
+public function detailPesanan()
+{
+    return $this->hasMany(DetailPesanan::class);
+}
+
     
 }
 
