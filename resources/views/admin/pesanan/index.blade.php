@@ -3,9 +3,7 @@
 @section('konten')
 <style>
     body {
-        background-color: #121212;
         color: #ffffff;
-        font-family: 'Segoe UI', sans-serif;
     }
 
     .container {
@@ -135,43 +133,64 @@
     .bg-info { background-color: #17a2b8; color: #fff; }
     .bg-success { background-color: #28a745; color: #ffffff; }
 
-    .search-filter-form {
+    .form-filter-wrapper {
     display: flex;
-    flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 20px;
+    margin: 20px 0;
     align-items: center;
 }
 
-.search-filter-form input[type="text"],
-.search-filter-form select {
-    padding: 8px 12px;
-    background-color: #2c2c2c;
-    border: 1px solid #555;
+.form-filter-wrapper input[type="text"],
+.form-filter-wrapper select,
+.form-filter-wrapper button {
+    height: 36px;
+    padding: 0 12px;
     border-radius: 6px;
-    color: #eee;
+    border: 1px solid yellowgreen;
+    font-size: 14px;
+    box-sizing: border-box;
 }
 
-.search-filter-form input[type="text"]::placeholder {
-    color: #aaa;
+.form-filter-wrapper input[type="text"],
+.form-filter-wrapper select {
+    width: 180px;
+    background-color: #fdfdfd;
+    color: #333;
 }
+
+.form-filter-wrapper button {
+    background-color: yellowgreen;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border: none;
+}
+
+.form-filter-wrapper button:hover {
+    background-color: #d9d9d9;
+    color: black;
+}
+
 
 </style>
 
 <div class="container">
     <h3>Daftar Semua Pesanan</h3>
 
-    <form method="GET" action="{{ route('admin.pesanan.index') }}" class="search-filter-form mb-3">
-        <input type="text" name="search" placeholder="Cari nama pelanggan..." value="{{ request('search') }}">
-        <select name="status">
-            <option value="">-- Semua Status --</option>
-            <option value="diproses" {{ request('status') == 'diproses' ? 'selected' : '' }}>Diproses</option>
-            <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
-            <option value="dikirim" {{ request('status') == 'dikirim' ? 'selected' : '' }}>Dikirim</option>
-            <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
+    <form method="GET" action="{{ route('admin.pesanan.index') }}" class="form-filter-wrapper">
+        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari pelanggan...">
+        <button type="submit">Cari</button>
+        <div style="width: 800%" class="kos"></div>
+        <select name="status" onchange="this.form.submit()">
+            <option value="">Filter Status</option>
+            <option value="diproses" {{ request('status') === 'diproses' ? 'selected' : '' }}>Diproses</option>
+            <option value="ditolak" {{ request('status') === 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+            <option value="dikirim" {{ request('status') === 'dikirim' ? 'selected' : '' }}>Dikirim</option>
+            <option value="selesai" {{ request('status') === 'selesai' ? 'selected' : '' }}>Selesai</option>
         </select>
-        <button type="submit" class="btn btn-success">Filter</button>
     </form>
+    
     
     @foreach($pesanan as $p)
     <div class="card mb-3">

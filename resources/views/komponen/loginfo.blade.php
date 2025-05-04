@@ -9,7 +9,9 @@
   <div id="accountDropdown" class="account-dropdown">
     <ul>
       <li><a href="/profile">Profil</a></li>
+      @if(Auth::user()->role === 'customer')
       <li><a href="/pesanan-saya">Pesanan Saya</a></li>
+      @endif
       <li>
         <form method="GET" action="/sesi/logout" onsubmit="return confirmLogout()">
           @csrf

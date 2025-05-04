@@ -12,13 +12,50 @@ class ProdukController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $produk = Produk::all();
-        return view('produk.index', compact('produk'));
+    // public function index()
+    // {
+    //     $produk = Produk::all();
+    //     return view('produk.index', compact('produk'));
 
 
+    // }
+
+    public function index(Request $request)
+{
+    $query = Produk::query();
+
+    // Pencarian berdasarkan nama/kategori
+    if ($request->filled('search')) {
+        $search = str_replace(' ', '%', $request->search);
+        $query->where('nama', 'like', '%' . $search . '%')
+              ->orWhere('kategori', 'like', '%' . $search . '%');
     }
+
+    // Filter (sorting)
+    if ($request->filled('sort')) {
+        switch ($request->sort) {
+            case 'harga_termurah':
+                $query->orderBy('harga', 'asc');
+                break;
+            case 'harga_termahal':
+                $query->orderBy('harga', 'desc');
+                break;
+            case 'stok_terendah':
+                $query->orderBy('stok', 'asc');
+                break;
+            case 'stok_tertinggi':
+                $query->orderBy('stok', 'desc');
+                break;
+            default:
+                $query->latest();
+        }
+    } else {
+        $query->latest(); // Default: urutkan berdasarkan terbaru
+    }
+
+    $produk = $query->get(); // Pakai pagination
+    return view('produk.index', compact('produk'));
+}
 
     public function semua(Request $request)
 {

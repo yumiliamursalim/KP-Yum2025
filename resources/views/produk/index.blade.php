@@ -107,10 +107,63 @@
     .produk-page .aksi button:hover {
         background-color: #c0392b;
     }
+
+    .form-filter-wrapper {
+    display: flex;
+    gap: 10px;
+    margin: 20px 0;
+    align-items: center;
+}
+
+.form-filter-wrapper input[type="text"],
+.form-filter-wrapper select,
+.form-filter-wrapper button {
+    height: 36px;
+    padding: 0 12px;
+    border-radius: 6px;
+    border: 1px solid yellowgreen;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-filter-wrapper input[type="text"],
+.form-filter-wrapper select {
+    width: 180px;
+    background-color: #fdfdfd;
+    color: #333;
+}
+
+.form-filter-wrapper button {
+    background-color: yellowgreen;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border: none;
+}
+
+.form-filter-wrapper button:hover {
+    background-color: #d9d9d9;
+    color: black;
+}
 </style>
 
 <div class="produk-page">
     <h2>Daftar Produk</h2>
+
+    <form method="GET" action="{{ route('produk.index') }}" class="form-filter-wrapper">
+        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari produk...">
+        <button type="submit">Cari</button>
+        <div style="width: 800%" class="kos"></div>
+        <select name="sort" onchange="this.form.submit()">
+            <option value="">Urutkan</option>
+            <option value="harga_termurah" {{ request('sort') === 'harga_termurah' ? 'selected' : '' }}>Harga Termurah</option>
+            <option value="harga_termahal" {{ request('sort') === 'harga_termahal' ? 'selected' : '' }}>Harga Termahal</option>
+            <option value="stok_terendah" {{ request('sort') === 'stok_terendah' ? 'selected' : '' }}>Stok Terendah</option>
+            <option value="stok_tertinggi" {{ request('sort') === 'stok_tertinggi' ? 'selected' : '' }}>Stok Tertinggi</option>
+        </select>
+    </form>
+    
 
     @if (session('success'))
         <div class="alert">{{ session('success') }}</div>
@@ -162,6 +215,7 @@
                         </td>
                     </tr>
                 @endforeach
+                
             </tbody>
         </table>
     @endif
