@@ -58,6 +58,7 @@
     @yield('konten')
     
     @include('komponen.footer')
+    @include('komponen.loginfo')
     {{-- <div class="container py-5">
         @if (Auth::check())
             @include('komponen.menu1')

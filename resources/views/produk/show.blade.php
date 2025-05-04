@@ -28,9 +28,12 @@
             <h2>{{ $produk->nama }}</h2>
             <h4>Rp {{ number_format($produk->harga, 0, ',', '.') }}</h4>
 
-            <input type="number" value="1" class="form-control w-25 mb-3" />
-
-            <a href="#" class="btn btn-primary">Tambah ke Keranjang</a>
+            <form action="{{ route('keranjang.tambah', $produk->id) }}" method="POST">
+                @csrf
+                <input type="number" name="jumlah" value="1" min="1" max="{{ $produk->stok }}" class="form-control w-25 mb-3" />
+                <button type="submit" class="btn btn-primary">Tambah ke Keranjang</button>
+            </form>
+            
 
             <h3 class="mt-4">Detail Produk</h3>
             <hr>

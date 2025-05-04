@@ -19,7 +19,7 @@
           </ul>
         </nav>
 
-        <a class="cartt" href="cart.html">
+        <a class="cartt" href="/keranjang">
           <img src="foto/asset/cart.png" alt="" width="30px" height="30px"/>
         </a>
           <img

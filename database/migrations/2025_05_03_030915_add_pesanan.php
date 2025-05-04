@@ -17,10 +17,13 @@ return new class extends Migration
         Schema::create('pesanan', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->enum('status', ['menunggu', 'diproses', 'selesai', 'dibatalkan'])->default('menunggu');
+            $table->string('alamat_pengiriman');
+            $table->string('metode_pembayaran');
+            $table->enum('status', ['menunggu', 'diproses', 'ditolak', 'dikirim', 'selesai'])->default('menunggu');
             $table->integer('total_harga');
             $table->timestamps();
         });
+        
         
     }
 

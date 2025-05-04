@@ -2,38 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Keranjang;
 use App\Models\Produk;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class KeranjangController extends Controller
 {
-    //
-    public function tambah(Request $request, $id){
-
-    $produk = Produk::findOrFail($id);
-    $jumlah = $request->input('jumlah', 1); // default = 1
-
-    // Cek apakah produk sudah ada di keranjang user
-    $keranjang = Keranjang::where('user_id', Auth::id())
-                    ->where('produk_id', $id)
-                    ->first();
-
-    if ($keranjang) {
-        // Jika sudah ada, tambahkan jumlah
-        $keranjang->jumlah += $jumlah;
-        $keranjang->save();
-    } else {
-        // Jika belum ada, buat baru
-        Keranjang::create([
-            'user_id' => Auth::id(),
-            'produk_id' => $id,
-            'jumlah' => $jumlah,
-        ]);
+    public function index()
+    {
+        $items = Keranjang::with('produk')->where('user_id', Auth::id())->get();
+        return view('keranjang.index', compact('items'));
     }
 
-    return redirect()->back()->with('success', 'Produk berhasil ditambahkan ke keranjang.');
-}
+    public function tambah(Request $request, $produk_id)
+    {
+        $produk = Produk::findOrFail($produk_id);
 
+        $keranjang = Keranjang::updateOrCreate(
+            ['user_id' => Auth::id(), 'produk_id' => $produk_id],
+            ['jumlah' => DB::raw('jumlah + 1')]
+        );
+
+        return redirect()->route('keranjang.index')->with('success', 'Produk ditambahkan ke keranjang.');
+    }
+
+    public function hapus($id)
+    {
+        $item = Keranjang::findOrFail($id);
+        $item->delete();
+
+        return back()->with('success', 'Item berhasil dihapus dari keranjang.');
+    }
 }

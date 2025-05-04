@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pesanan;
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HalamanController extends Controller
 {
@@ -21,5 +23,16 @@ class HalamanController extends Controller
     function admin(){
         return view("halaman/admin");
     }
-}
+
+    function profile(){
+        $user = Auth::user();
+        return view('/halaman/profile', compact('user'));
+    }
     
+    public function semuaPesanan()
+{
+    $pesanan = Pesanan::with(['user', 'detailPesanan.produk'])->orderBy('created_at', 'desc')->get();
+
+    return view('admin.pesanan.index', compact('pesanan'));
+}
+}
