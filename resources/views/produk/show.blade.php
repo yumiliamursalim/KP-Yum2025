@@ -33,8 +33,6 @@
                 <input type="number" name="jumlah" value="1" min="1" max="{{ $produk->stok }}" class="form-control w-25 mb-3" />
                 <button type="submit" class="btn btn-primary">Tambah ke Keranjang</button>
             </form>
-            
-
             <h3 class="mt-4">Detail Produk</h3>
             <hr>
             <p>{{ $produk->deskripsi ?? 'Tidak ada deskripsi.' }}</p>

@@ -9,15 +9,31 @@
 
         <nav>
           <ul id="MenuItems">
-            <li><a href="/">Beranda</a></li>
-            <li><a href="{{ route('produk.semua') }}">Produk</a></li>
-            <li><a href="/tentang">Tentang Kami</a></li>
-            <li><a href="/kontak">Kontak</a></li>
+            {{-- Menu umum (beranda, produk, dll) untuk guest dan customer --}}
             @guest
-            <li><a href="/sesi">Akun</a></li> <!-- Tampil hanya jika belum login -->
+              <li><a href="/">Beranda</a></li>
+              <li><a href="{{ route('produk.semua') }}">Produk</a></li>
+              <li><a href="/tentang">Tentang Kami</a></li>
+              <li><a href="/kontak">Kontak</a></li>
+              <li><a href="/sesi">Akun</a></li>
+            @else
+              @if(Auth::user()->role === 'admin')
+                {{-- Menu khusus admin --}}
+                <li><a href="/admin">Dashboard</a></li>
+                <li><a href="/produk">Kelola Produk</a></li>
+                <li><a href="/admin/pesanan">Kelola Pesanan</a></li>
+              @else
+                {{-- Menu untuk customer yang sudah login --}}
+                <li><a href="/">Beranda</a></li>
+                <li><a href="{{ route('produk.semua') }}">Produk</a></li>
+                <li><a href="/tentang">Tentang Kami</a></li>
+                <li><a href="/kontak">Kontak</a></li>
+                <li><a href="/pesanan-saya">Pesanan Saya</a></li>
+              @endif
             @endguest
           </ul>
         </nav>
+        
 
         <a class="cartt" href="/keranjang">
           <img src="foto/asset/cart.png" alt="" width="30px" height="30px"/>
@@ -33,16 +49,6 @@
     </div>
   </div>
   
-  @auth
-    @if (Auth::user()->role === 'admin')
-    
-    @else
-
-    @endif
-      
-  @else
-
-  @endauth
 <!-- announcement -->
   <div class="announcement">
     @auth

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\CheckoutController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiswaController;
@@ -54,12 +55,12 @@ Route::get('/sesi/logout', [SessionController::class, 'logout']);
 Route::get('/sesi/register', [SessionController::class, 'register']);
 Route::post('/sesi/create', [SessionController::class, 'create']) ;
 
-Route::get('/admin', [HalamanController::class, 'admin'])->middleware('role:admin');
+// Route::get('/admin', [HalamanController::class, 'admin'])->middleware('role:admin');
 // Route::get('/dashboard', [CustomerController::class, 'index'])->middleware('role:customer');
 
 
 ///Produk
-Route::resource('produk', ProdukController::class);
+Route::resource('produk', ProdukController::class)->middleware('role:admin');
 // Route::get('/produk/{id}', [ProdukController::class, 'show'])->name('produk.show');
 // Route::get('/produk ', [ProdukController::class, 'index'])->name('produk.index');
 Route::get('/semuaproduk', [ProdukController::class, 'semua'])->name('produk.semua');
@@ -94,6 +95,10 @@ Route::post('/checkout', [CheckoutController::class, 'prosesCheckout'])->name('c
 Route::get('/pesanan-saya', [PesananController::class, 'index'])->name('pesanan.saya');
 
 Route::middleware('role:admin')->group(function () {
+    Route::get('/admin', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin/penjualan/print', [DashboardController::class, 'print'])->name('admin.penjualan.print');
+    Route::get('/admin/penjualan/pdf', [DashboardController::class, 'pdf'])->name('admin.penjualan.pdf');
+
     Route::get('/admin/pesanan', [PesananAdminController::class, 'index'])->name('admin.pesanan.index');
     Route::post('/admin/pesanan/{id}/ubah-status', [PesananAdminController::class, 'ubahStatus'])->name('admin.pesanan.ubah-status');
 });

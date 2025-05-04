@@ -8,10 +8,25 @@ use Illuminate\Http\Request;
 
 class PesananAdminController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $pesanan = Pesanan::with('user', 'detailPesanan.produk')->latest()->get();
-        return view('admin.pesanan.index', compact('pesanan'));
+        $query = Pesanan::with('user', 'detailPesanan.produk')->latest();
+
+    // Filter berdasarkan status
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
+    }
+
+    // Search berdasarkan nama pelanggan
+    if ($request->filled('search')) {
+        $query->whereHas('user', function ($q) use ($request) {
+            $q->where('name', 'like', '%' . $request->search . '%');
+        });
+    }
+
+    $pesanan = $query->get();
+
+    return view('admin.pesanan.index', compact('pesanan'));
     }
 
     public function ubahStatus($id, Request $request)

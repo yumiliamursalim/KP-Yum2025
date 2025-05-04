@@ -54,11 +54,11 @@
 
 <body>
     @include('komponen.menu1')
+    @include('komponen.loginfo')
     
     @yield('konten')
     
     @include('komponen.footer')
-    @include('komponen.loginfo')
     {{-- <div class="container py-5">
         @if (Auth::check())
             @include('komponen.menu1')
@@ -66,6 +66,7 @@
         @include('komponen/pesan')
         @yield('konten')
     </div> --}}
+    
 </body>
 
 <!-- menuscpript -->

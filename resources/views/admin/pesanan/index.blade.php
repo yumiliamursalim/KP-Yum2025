@@ -1,16 +1,187 @@
 @extends('layout.aplikasi')
 
 @section('konten')
+<style>
+    body {
+        background-color: #121212;
+        color: #ffffff;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    h3 {
+        margin-bottom: 1.5rem;
+        color: #fff;
+    }
+
+    .card {
+        background-color: #1e1e1e;
+        border: 1px solid #333;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    }
+
+    .card-header {
+        border-bottom: 1px solid #333;
+        padding: 16px;
+        background-color: #252525;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .info-bar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        row-gap: 10px;
+        color: #ffffff;
+    }
+
+    .info-bar div {
+        font-size: 14px;
+    }
+
+    .info-bar span {
+        font-weight: bold;
+        color: #ffffff;
+    }
+
+    .card-body {
+        padding: 16px;
+    }
+
+    .list-group {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 16px 0;
+    }
+
+    .list-group-item {
+        padding: 10px 16px;
+        border-bottom: 1px solid #333;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .list-group-item:last-child {
+        border-bottom: none;
+        background-color: #2a2a2a;
+        font-weight: bold;
+        color: #fff;
+    }
+
+    p {
+        margin-bottom: 10px;
+    }
+
+    .form-select {
+        padding: 6px 10px;
+        background-color: #2c2c2c;
+        color: #eee;
+        border: 1px solid #555;
+        border-radius: 5px;
+    }
+
+    .btn {
+        padding: 6px 12px;
+        font-size: 14px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+    }
+
+    .gap-2 {
+        gap: 8px;
+    }
+
+    .d-flex {
+        display: flex;
+    }
+
+    .align-items-center {
+        align-items: center;
+    }
+
+    .w-auto {
+        width: auto;
+    }
+
+    .mb-3 {
+        margin-bottom: 1rem;
+    }
+
+    .badge {
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        text-transform: capitalize;
+        font-weight: 600;
+    }
+
+    .bg-warning { background-color: #ffc107; color: #000; }
+    .bg-danger { background-color: #dc3545; color: #fff; }
+    .bg-info { background-color: #17a2b8; color: #fff; }
+    .bg-success { background-color: #28a745; color: #ffffff; }
+
+    .search-filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.search-filter-form input[type="text"],
+.search-filter-form select {
+    padding: 8px 12px;
+    background-color: #2c2c2c;
+    border: 1px solid #555;
+    border-radius: 6px;
+    color: #eee;
+}
+
+.search-filter-form input[type="text"]::placeholder {
+    color: #aaa;
+}
+
+</style>
+
 <div class="container">
     <h3>Daftar Semua Pesanan</h3>
 
+    <form method="GET" action="{{ route('admin.pesanan.index') }}" class="search-filter-form mb-3">
+        <input type="text" name="search" placeholder="Cari nama pelanggan..." value="{{ request('search') }}">
+        <select name="status">
+            <option value="">-- Semua Status --</option>
+            <option value="diproses" {{ request('status') == 'diproses' ? 'selected' : '' }}>Diproses</option>
+            <option value="ditolak" {{ request('status') == 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+            <option value="dikirim" {{ request('status') == 'dikirim' ? 'selected' : '' }}>Dikirim</option>
+            <option value="selesai" {{ request('status') == 'selesai' ? 'selected' : '' }}>Selesai</option>
+        </select>
+        <button type="submit" class="btn btn-success">Filter</button>
+    </form>
+    
     @foreach($pesanan as $p)
     <div class="card mb-3">
         <div class="card-header">
-            <strong>ID:</strong> {{ $p->id }} | 
-            <strong>Pelanggan:</strong> {{ $p->user->name }} | 
-            <strong>Status:</strong> {{ ucfirst($p->status) }} | 
-            <strong>Tanggal:</strong> {{ $p->created_at->format('d M Y H:i') }}
+            <div class="info-bar">
+                <div><span>ID:</span> #{{ $p->id }}</div>
+                <div><span>Pelanggan:</span> {{ $p->user->name }}</div>
+                <div><span>Status:</span> <span class="badge {{ $p->status == 'diproses' ? 'bg-warning' : ($p->status == 'ditolak' ? 'bg-danger' : ($p->status == 'dikirim' ? 'bg-info' : 'bg-success')) }}">{{ ucfirst($p->status) }}</span></div>
+                <div><span>Tanggal:</span> {{ $p->created_at->format('d M Y H:i') }}</div>
+            </div>
         </div>
         <div class="card-body">
             <ul class="list-group mb-3">
