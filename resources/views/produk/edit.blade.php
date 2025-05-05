@@ -219,14 +219,15 @@
         <div class="produk-form-actions">
             <button type="submit" class="btn-success">Simpan Perubahan</button>
 
-            <form action="{{ route('produk.destroy', $produk->id) }}" method="POST" onsubmit="return confirm('Yakin ingin hapus produk ini?')" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn-danger">Hapus</button>
-            </form>
+        
 
             <a href="{{ route('produk.index') }}" class="btn-secondary">Batal</a>
         </div>
+    </form>
+    <form action="{{ route('produk.destroy', $produk->id) }}" method="POST" onsubmit="return confirm('Yakin ingin hapus produk ini?')" style="margin-top: 10px;">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn-danger">Hapus</button>
     </form>
 </div>
 @endsection
