@@ -95,7 +95,7 @@ Route::post('/checkout', [CheckoutController::class, 'prosesCheckout'])->name('c
 Route::get('/pesanan-saya', [PesananController::class, 'index'])->name('pesanan.saya');
 
 Route::middleware('role:admin')->group(function () {
-    Route::get('/admin', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/admin', [DashboardController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/admin/penjualan/print', [DashboardController::class, 'print'])->name('admin.penjualan.print');
     Route::get('/admin/penjualan/pdf', [DashboardController::class, 'pdf'])->name('admin.penjualan.pdf');
 
