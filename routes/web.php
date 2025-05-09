@@ -60,7 +60,7 @@ Route::post('/sesi/create', [SessionController::class, 'create']) ;
 
 
 ///Produk
-Route::resource('produk', ProdukController::class)->middleware('role:admin');
+Route::resource('produk', ProdukController::class);
 // Route::get('/produk/{id}', [ProdukController::class, 'show'])->name('produk.show');
 // Route::get('/produk ', [ProdukController::class, 'index'])->name('produk.index');
 Route::get('/semuaproduk', [ProdukController::class, 'semua'])->name('produk.semua');
